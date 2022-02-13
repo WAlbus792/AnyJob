@@ -52,33 +52,6 @@ namespace AnyJob.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("EmploymentTypes", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Full Time"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Part Time"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Contractor"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Intern"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Name = "Seasonal / Temp"
-                        });
                 });
 
             modelBuilder.Entity("AnyJob.Domain.JobPosting", b =>

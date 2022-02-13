@@ -82,18 +82,6 @@ namespace AnyJob.Persistence.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
-            migrationBuilder.InsertData(
-                table: "EmploymentTypes",
-                columns: new[] { "Id", "Name" },
-                values: new object[,]
-                {
-                    { 1, "Full Time" },
-                    { 2, "Part Time" },
-                    { 3, "Contractor" },
-                    { 4, "Intern" },
-                    { 5, "Seasonal / Temp" }
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_JobPostings_CategoryId",
                 table: "JobPostings",

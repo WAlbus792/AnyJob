@@ -1,26 +1,23 @@
 ﻿using AnyJob.Persistence.EntityConfigs;
 using Microsoft.EntityFrameworkCore;
 
-namespace AnyJob.Persistence
+namespace AnyJob.Persistence;
+
+/// <summary>
+/// Db context connected with certain sql server
+/// </summary>
+public class AppDbContext : DbContext
 {
-    /// <summary>
-    /// Db context connected with certain sql server 
-    /// </summary>
-    public class AppDbContext : DbContext
-    {
-        #region Constructor
+    #region Constructor
 
-        public AppDbContext(DbContextOptions<AppDbContext> dbContextOptions) : base(dbContextOptions) { }
+    public AppDbContext(DbContextOptions<AppDbContext> dbContextOptions) : base(dbContextOptions) { }
 
-        #endregion Constructor
+    #endregion Constructor
 
-        #region Methods
+    #region Methods
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(EntityTypeConfigurationBase<>).Assembly);
-        }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+        => modelBuilder.ApplyConfigurationsFromAssembly(typeof(EntityTypeConfigurationBase<>).Assembly);
 
-        #endregion Methods
-    }
+    #endregion Methods
 }

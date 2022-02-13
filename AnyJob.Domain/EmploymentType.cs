@@ -23,7 +23,7 @@ public class EmploymentType : EntityWithId<EmploymentTypeId>
 
     #region Navigation properties
 
-    public ICollection<JobPosting> JobPostings { get; set; }
+    public ICollection<JobPosting> JobPostings { get; set; } = new HashSet<JobPosting>();
 
     #endregion
 }

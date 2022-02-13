@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace AnyJob.Persistence.EntityConfigs
-{
-    public class JobPostingConfig : EntityTypeConfigurationBase<JobPosting>
-    {
-        protected override void ConfigureEntity(EntityTypeBuilder<JobPosting> builder)
-        {
-            builder.ToTable("JobPostings");
+namespace AnyJob.Persistence.EntityConfigs;
 
-            builder.Property(e => e.EmploymentTypeId).HasConversion<int>();
-        }
+public class JobPostingConfig : EntityTypeConfigurationBase<JobPosting>
+{
+    protected override void ConfigureEntity(EntityTypeBuilder<JobPosting> builder)
+    {
+        builder.ToTable("JobPostings");
+
+        builder.HasMany(p => p.Bookmarks)
+           .WithOne(d => d.JobPosting)
+           .HasForeignKey(d => d.JobPostingId)
+           .OnDelete(DeleteBehavior.Cascade);
     }
 }

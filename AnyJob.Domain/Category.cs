@@ -8,7 +8,7 @@ public class Category : EntityWithId
 
     #region Navigation properties
 
-    public ICollection<JobPosting> JobPostings { get; set; }
+    public ICollection<JobPosting> JobPostings { get; set; } = new HashSet<JobPosting>();
 
     #endregion
 }

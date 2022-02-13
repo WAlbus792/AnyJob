@@ -1,18 +1,17 @@
-﻿namespace AnyJob.Persistence.Repositories
+﻿namespace AnyJob.Persistence.Repositories;
+
+/// <summary>
+/// Database data updater
+/// </summary>
+public interface IDbChangesUpdater
 {
     /// <summary>
-    /// Database data updater
+    /// Save all made changes to database
     /// </summary>
-    public interface IDbChangesUpdater
-    {
-        /// <summary>
-        /// Save all made changes to database
-        /// </summary>
-        void SaveChanges();
+    void SaveChanges();
 
-        /// <summary>
-        /// Save all made changes to database asynchronous
-        /// </summary>
-        Task SaveChangesAsync();
-    }
+    /// <summary>
+    /// Save all made changes to database asynchronous
+    /// </summary>
+    Task SaveChangesAsync();
 }

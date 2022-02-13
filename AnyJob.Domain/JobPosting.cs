@@ -29,5 +29,11 @@ public class JobPosting : EntityWithId
 
     #endregion
 
+    #region Bookmarks
+
+    public ICollection<JobPostingBookmark> Bookmarks { get; set; } = new HashSet<JobPostingBookmark>();
+
+    #endregion
+
     #endregion
 }
