@@ -2,6 +2,7 @@
 using System.Linq.Expressions;
 using AnyJob.Domain.Shared;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace AnyJob.Persistence.Repositories;
 
@@ -41,12 +42,12 @@ public class Repository<TEntity> : IRepository<TEntity>
     /// <summary>
     /// Adds a new object
     /// </summary>
-    public void Add(TEntity objectToAdd) => Context.Set<TEntity>().Add(objectToAdd);
+    public EntityEntry<TEntity> Add(TEntity objectToAdd) => Context.Set<TEntity>().Add(objectToAdd);
 
     /// <summary>
     /// Adds a new object asynchronous
     /// </summary>
-    public Task AddAsync(TEntity objectToAdd) => null;//Context.Set<TEntity>().AddAsync(objectToAdd);
+    public ValueTask<EntityEntry<TEntity>> AddAsync(TEntity objectToAdd) => Context.Set<TEntity>().AddAsync(objectToAdd);
 
     /// <summary>
     /// Adds a collection of new objects

@@ -1,4 +1,5 @@
 ﻿using AnyJob.Domain.Shared;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace AnyJob.Persistence.Repositories;
 
@@ -14,12 +15,12 @@ public interface IRepository<TEntity> : IQueryable<TEntity>
     /// <summary>
     /// Adds a new object
     /// </summary>
-    void Add(TEntity objectToAdd);
+    EntityEntry<TEntity> Add(TEntity objectToAdd);
 
     /// <summary>
     /// Adds a new object asynchronous
     /// </summary>
-    Task AddAsync(TEntity objectToAdd);
+    ValueTask<EntityEntry<TEntity>> AddAsync(TEntity objectToAdd);
 
     /// <summary>
     /// Adds a collection of new objects
