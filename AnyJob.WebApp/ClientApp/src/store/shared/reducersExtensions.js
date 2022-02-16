@@ -1,15 +1,13 @@
-export const loadingPendingReducer = property => state => {
+export const loadingPendingReducer = (property, defaultState) => state => {
+    if (!state[property] && defaultState)
+        state[property] = { model: defaultState };
     startLoading(state, property);
 };
 export const loadingRejectedReducer = property => state => {
     endLoading(state, property);
 };
-export const loadingFulfilledReducer = (property, dataProcessor) => (state, action) => {
-    let data = action.payload;
-    if (dataProcessor)
-        data = dataProcessor(data);
-    
-    state[property].data = data;
+export const loadingFulfilledReducer = property => (state, action) => {
+    state[property].model = action.payload;
     endLoading(state, property);
 };
 const startLoading = (state, property) => state[property].loading = true;
@@ -29,5 +27,5 @@ export const assigningSpreadObjReducer = property => (state, action) => {
 /* eslint no-eval: 0 */
 export const assigningSpreadArrayReducer = property => (state, action) => {
     const stateStr = getStateStr(property);
-    eval(`${stateStr} = [ ...${stateStr}, ...action.payload ];`);
+    eval(`${stateStr} = [...${stateStr}, ...action.payload];`);
 };

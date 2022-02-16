@@ -45,19 +45,22 @@ public class GetJobPostingsQuery
 
         JobPostingViewModel result = new() { Total = await jobPostings.CountAsync() };
 
-        IQueryable<JobPostingViewItemModel> mappedJobPostings = jobPostings
-           .ProjectTo<JobPostingViewItemModel>(mapper.ConfigurationProvider)
-           .Skip((model.Page - 1) * model.PageSize)
-           .Take(model.PageSize);
-        mappedJobPostings = model.SortBy switch
+        jobPostings = model.SortBy switch
         {
-            SortBy.MostRelevant => mappedJobPostings.OrderByDescending(m => m.Title.StartsWith(model.SearchTitle)),
-            SortBy.Newest => mappedJobPostings.OrderBy(m => m.CreationDate),
-            SortBy.Oldest => mappedJobPostings.OrderByDescending(m => m.CreationDate),
-            _ => mappedJobPostings
+            SortBy.MostRelevant => jobPostings.OrderByDescending(m => m.Title.StartsWith(model.SearchTitle)),
+            SortBy.Newest => jobPostings.OrderBy(m => m.CreationDate),
+            SortBy.Oldest => jobPostings.OrderByDescending(m => m.CreationDate),
+            _ => jobPostings
         };
 
-        result.Data = await mappedJobPostings.ToListAsync();
+        if (model.Page * model.PageSize > result.Total)
+            model.Page = result.Total / model.PageSize + 1;
+
+        result.Data = await jobPostings
+           .ProjectTo<JobPostingViewItemModel>(mapper.ConfigurationProvider)
+           .Skip((model.Page - 1) * model.PageSize)
+           .Take(model.PageSize)
+           .ToListAsync();
         return result;
     }
 

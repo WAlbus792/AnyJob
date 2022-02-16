@@ -15,12 +15,12 @@ public class GetAnonymousUserQuery
 {
     #region Constructor
 
-    public GetAnonymousUserQuery(IRepository<User> userRepository, IUserInfoProvider userInfoProvider, IMapper mapper, IDbChangesUpdater changesSaver)
+    public GetAnonymousUserQuery(IRepository<User> userRepository, IUserInfoProvider userInfoProvider, IMapper mapper, IDbChangesUpdater dbChangesUpdater)
     {
         this.userRepository = userRepository;
         this.userInfoProvider = userInfoProvider;
         this.mapper = mapper;
-        this.changesSaver = changesSaver;
+        this.dbChangesUpdater = dbChangesUpdater;
     }
 
     #endregion Constructor
@@ -30,19 +30,16 @@ public class GetAnonymousUserQuery
     private readonly IRepository<User> userRepository;
     private readonly IUserInfoProvider userInfoProvider;
     private readonly IMapper mapper;
-    private readonly IDbChangesUpdater changesSaver;
+    private readonly IDbChangesUpdater dbChangesUpdater;
 
     #endregion Fields
 
     #region Methods
 
-    public async Task<AnonymousUserViewModel?> Build()
+    public async Task<AnonymousUserViewModel> Build()
     {
-        if (userInfoProvider.AnonymousId == Guid.Empty) return null;
-
         AnonymousUserViewModel? user = await userRepository
            .Where(u => u.AnonymousId == userInfoProvider.AnonymousId)
-           .AsNoTracking()
            .ProjectTo<AnonymousUserViewModel>(mapper.ConfigurationProvider)
            .FirstOrDefaultAsync();
         if (user is null)
@@ -52,7 +49,7 @@ public class GetAnonymousUserQuery
 
             user = mapper.Map<AnonymousUserViewModel>(newUser);
 
-            await changesSaver.SaveChangesAsync();
+            await dbChangesUpdater.SaveChangesAsync();
         }
 
         return user;

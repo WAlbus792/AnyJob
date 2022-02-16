@@ -1,27 +1,19 @@
 import React from 'react';
-import { Box, Button, Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import jobIcon from '../../assets/job-icon.png';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import { useSelector } from "react-redux";
-import { authStore } from "../../store";
-import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
-import BookmarkIcon from '@mui/icons-material/Bookmark';
-import WorkIcon from '@mui/icons-material/Work';
+import { JobPostingApplyButton, JobPostingBookmarkButton } from "./ActionButtons";
 
 export default function JobPostingDataItem({ data }) {
     const classes = useStyles();
-    const bookmarks = useSelector(authStore.selectUserBookmarks);
-    const isBookmarked = bookmarks.includes(data.id);
     
     return (
         <Box className={classes.root}>
             <Grid container alignItems="center">
                 <Grid item xs={2} className={classes.icon}>
-                    <picture>
-                        <img src={jobIcon} alt="job icon" />
-                    </picture>
+                    <img src={jobIcon} alt="job icon" />
                 </Grid>
                 <Grid item xs={6}>
                     <Typography paragraph><strong> {data.title}</strong></Typography>
@@ -33,14 +25,8 @@ export default function JobPostingDataItem({ data }) {
                     </Typography>
                 </Grid>
                 <Grid xs={4} item className="actions">
-                    <Button variant="contained" color="primary" disabled={isBookmarked}>
-                        {isBookmarked ? <BookmarkIcon /> : <BookmarkBorderIcon />}
-                        Bookmark
-                    </Button>
-                    <Button variant="contained" color="success">
-                        <WorkIcon />
-                        Apply For This Job
-                    </Button>
+                    <JobPostingBookmarkButton id={data.id} />
+                    <JobPostingApplyButton item={data} />
                 </Grid>
             </Grid>
         </Box>
@@ -57,14 +43,8 @@ const useStyles = makeStyles(theme => ({
             alignItems: 'end',
             display: 'flex',
             
-            '& > button': {
-                '& + button': {
-                    marginTop: theme.spacing(1),
-                },
-                
-                '& .MuiSvgIcon-root': {
-                    paddingRight: theme.spacing(1),
-                },
+            '& > * + *': {
+                marginTop: theme.spacing(1),
             },
         },
     },
@@ -82,6 +62,6 @@ const useStyles = makeStyles(theme => ({
         
         '& + &': {
             marginLeft: theme.spacing(1),
-        }
+        },
     },
 }));

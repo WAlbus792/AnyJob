@@ -4,6 +4,7 @@ import { assigningReducer } from "../shared/reducersExtensions";
 import reducers from "./reducers";
 import { sliceName } from "./shared";
 import { SortBy } from "../../utils/constants";
+import { addFull } from "../shared/sliceExtensions";
 
 const initialState = {
     categories: [],
@@ -36,8 +37,8 @@ const slice = createSlice({
         builder
             .addCase(thunks.getCategories.fulfilled, assigningReducer("categories"))
             .addCase(thunks.getLocations.fulfilled, assigningReducer("locations"))
-            .addCase(thunks.getEmploymentTypes.fulfilled, assigningReducer("employmentTypes"))
-            .addCase(thunks.getJobPostings.fulfilled, assigningReducer("jobPostings"));
+            .addCase(thunks.getEmploymentTypes.fulfilled, assigningReducer("employmentTypes"));
+        addFull(builder, thunks.getJobPostings, "jobPostings", { data: [], total: 0 });
     },
 });
 

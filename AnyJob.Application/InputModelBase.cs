@@ -19,7 +19,7 @@ namespace AnyJob.Application
             IEnumerable<PropertyInfo> stringProperties = properties.Where(p => p.PropertyType == typeof(string)
                                                                             && p.CustomAttributes.All(a => a.AttributeType != typeof(NotTrimableAttribute)));
             foreach (PropertyInfo stringProperty in stringProperties)
-                if (stringProperty.GetMethod!.Invoke(this, Array.Empty<object>()) is string value && !string.IsNullOrWhiteSpace(value))
+                if (stringProperty.GetMethod!.Invoke(this, Array.Empty<object>()) is string value && !string.IsNullOrEmpty(value))
                     stringProperty.SetMethod!.Invoke(this, new object[] { value.Trim() });
 
             // Perform the same method for children of target model

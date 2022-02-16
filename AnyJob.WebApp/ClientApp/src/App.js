@@ -7,6 +7,9 @@ import { useDispatch } from "react-redux";
 import { authStore } from "./store";
 import { createTheme, ThemeProvider } from "@mui/material";
 
+import 'react-block-ui/style.css';
+import 'loaders.css/loaders.min.css';
+
 export default function App() {
     const dispatch = useDispatch();
     
