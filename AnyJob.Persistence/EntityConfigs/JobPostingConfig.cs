@@ -10,6 +10,9 @@ public class JobPostingConfig : EntityTypeConfigurationBase<JobPosting>
     {
         builder.ToTable("JobPostings");
 
+        builder.Property(e => e.CreationDate).HasDefaultValueSql("getdate()");
+        builder.HasIndex(e => e.CreationDate);
+
         builder.HasMany(p => p.Bookmarks)
            .WithOne(d => d.JobPosting)
            .HasForeignKey(d => d.JobPostingId)

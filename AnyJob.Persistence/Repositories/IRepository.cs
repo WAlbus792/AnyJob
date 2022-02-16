@@ -7,8 +7,20 @@ namespace AnyJob.Persistence.Repositories;
 /// Interface that implements Repository
 /// </summary>
 /// <typeparam name="TEntity">type of Entity</typeparam>
-public interface IRepository<TEntity> : IQueryable<TEntity>
+public interface IRepository<TEntity> : IRepository<TEntity, int>
     where TEntity : EntityWithId
+{
+
+}
+
+/// <summary>
+/// Interface that implements Repository
+/// </summary>
+/// <typeparam name="TEntity">type of Entity</typeparam>
+/// <typeparam name="TId">type of Entity Id</typeparam>
+public interface IRepository<TEntity, in TId> : IQueryable<TEntity>
+    where TEntity : class, IEntityWithId<TId>
+    where TId : IComparable
 {
     #region Add
 
@@ -40,25 +52,25 @@ public interface IRepository<TEntity> : IQueryable<TEntity>
     /// Removes the instance by its id
     /// </summary>
     /// <param name="instanceId">id of instance</param>
-    void Remove(int instanceId);
+    void Remove(TId instanceId);
 
     /// <summary>
     /// Removes the instance by its id asynchronous
     /// </summary>
     /// <param name="instanceId">id of instance</param>
-    Task RemoveAsync(int instanceId);
+    Task RemoveAsync(TId instanceId);
 
     /// <summary>
     /// Removes the instances by their ids
     /// </summary>
     /// <param name="ids">ids of instances</param>
-    void RemoveRange(IEnumerable<int> ids);
+    void RemoveRange(IEnumerable<TId> ids);
 
     /// <summary>
     /// Removes the instances by their ids asynchronous
     /// </summary>
     /// <param name="ids">ids of instances</param>
-    Task RemoveRangeAsync(IEnumerable<int> ids);
+    Task RemoveRangeAsync(IEnumerable<TId> ids);
 
     #endregion Remove
 
@@ -68,13 +80,13 @@ public interface IRepository<TEntity> : IQueryable<TEntity>
     /// Method gets all instances by their Ids
     /// </summary>
     /// <param name="ids">ids of instances</param>
-    IQueryable<TEntity> GetByIds(IEnumerable<int> ids);
+    IQueryable<TEntity> GetByIds(IEnumerable<TId> ids);
 
     /// <summary>
     /// Returns the instance by its Id
     /// </summary>
     /// <param name="id">id of the instance</param>
-    IQueryable<TEntity> GetById(int id);
+    IQueryable<TEntity> GetById(TId id);
 
     #endregion Queries
 }

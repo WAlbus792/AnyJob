@@ -91,6 +91,11 @@ namespace AnyJob.Persistence.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("CreationDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getdate()");
+
                     b.Property<int>("EmploymentTypeId")
                         .HasColumnType("int");
 
@@ -104,6 +109,8 @@ namespace AnyJob.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("CreationDate");
 
                     b.HasIndex("EmploymentTypeId");
 

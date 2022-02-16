@@ -1,14 +1,20 @@
 /* Provide sufficient contrast against white background */
-a {
-  color: #0366d6;
+body {
+    margin: 0;
+    font-family: 'Segoe UI', 'Helvetica Neue', sans-serif;
+    height: 100%;
+    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(177, 96, 96, 0.5), #DCDCDC), url(./assets/background.jpg);
+    background-repeat: no-repeat;
+    background-color: #DCDCDC;
+    background-size: 100% 600px;
 }
 
-code {
-  color: #E01A76;
+a {
+    color: #0366D6;
 }
 
 .btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #FFF;
+    background-color: #1B6EC2;
+    border-color: #1861AC;
 }

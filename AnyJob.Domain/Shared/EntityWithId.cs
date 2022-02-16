@@ -5,6 +5,7 @@
 /// </summary>
 /// <typeparam name="T">Type of Id</typeparam>
 public interface IEntityWithId<out T>
+    where T: IComparable
 {
     T Id { get; }
 }
@@ -15,6 +16,7 @@ public class EntityWithId : IEntityWithId<int>
 }
 
 public class EntityWithId<T> : IEntityWithId<T>
+    where T : IComparable
 {
     public T Id { get; set; }
 }

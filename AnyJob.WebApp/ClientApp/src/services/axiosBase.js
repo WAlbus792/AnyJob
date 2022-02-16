@@ -36,7 +36,7 @@ const getErrorMessage = error => {
   else if (error.response.status === 500)
     return "Internal Server Error";
   
-  return data["Message"] || data.title;
+  return data.message;
 };
 
 export default axios;

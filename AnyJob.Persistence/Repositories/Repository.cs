@@ -10,8 +10,14 @@ namespace AnyJob.Persistence.Repositories;
 /// Repository of entity
 /// </summary>
 /// <typeparam name="TEntity">type of Entity, which instances are kept in repository</typeparam>
-public class Repository<TEntity> : IRepository<TEntity>
+public class Repository<TEntity> : Repository<TEntity, int>, IRepository<TEntity>
     where TEntity : EntityWithId
+{
+    public Repository(AppDbContext context) : base(context){}
+}
+public class Repository<TEntity, TId> : IRepository<TEntity, TId>
+    where TEntity : class, IEntityWithId<TId>
+    where TId : IComparable
 {
     #region Constructor
 
@@ -67,25 +73,25 @@ public class Repository<TEntity> : IRepository<TEntity>
     /// Removes the instance by its id
     /// </summary>
     /// <param name="instanceId">id of instance</param>
-    public void Remove(int instanceId) =>  Remove(GetById(instanceId).FirstOrDefault());
+    public void Remove(TId instanceId) => Remove(GetById(instanceId).FirstOrDefault());
 
     /// <summary>
     /// Removes the instance by its id asynchronous
     /// </summary>
     /// <param name="instanceId">id of instance</param>
-    public async Task RemoveAsync(int instanceId) => Context.Remove(new { Id = instanceId });//Remove(await GetById(instanceId).FirstOrDefaultAsync());
+    public async Task RemoveAsync(TId instanceId) => Remove(await GetById(instanceId).FirstOrDefaultAsync());
 
     /// <summary>
     /// Removes the instances by their ids
     /// </summary>
     /// <param name="ids">ids of instances</param>
-    public void RemoveRange(IEnumerable<int> ids) => Remove(GetByIds(ids).ToArray());
+    public void RemoveRange(IEnumerable<TId> ids) => Remove(GetByIds(ids).ToArray());
 
     /// <summary>
     /// Removes the instances by their ids asynchronous
     /// </summary>
     /// <param name="ids">ids of instances</param>
-    public async Task RemoveRangeAsync(IEnumerable<int> ids) => Remove(await GetByIds(ids).ToArrayAsync());
+    public async Task RemoveRangeAsync(IEnumerable<TId> ids) => Remove(await GetByIds(ids).ToArrayAsync());
 
     /// <summary>
     /// Common method to remove the collection of array
@@ -100,13 +106,13 @@ public class Repository<TEntity> : IRepository<TEntity>
     /// Method gets all instances by their Ids
     /// </summary>
     /// <param name="ids">ids of instances</param>
-    public IQueryable<TEntity> GetByIds(IEnumerable<int> ids) => SourceQuery.Where(o => ids.Contains(o.Id));
+    public IQueryable<TEntity> GetByIds(IEnumerable<TId> ids) => SourceQuery.Where(o => ids.Contains(o.Id));
 
     /// <summary>
     /// Returns the instance by its Id
     /// </summary>
     /// <param name="id">id of the instance</param>
-    public IQueryable<TEntity> GetById(int id) => SourceQuery.Where(o => o.Id == id);
+    public IQueryable<TEntity> GetById(TId id) => SourceQuery.Where(o => o.Id.Equals(id));
 
     #endregion Queries
 

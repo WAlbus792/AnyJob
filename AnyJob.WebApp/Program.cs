@@ -2,6 +2,7 @@ using System.Reflection;
 using AnyJob.Application;
 using AnyJob.Application.Contracts;
 using AnyJob.Persistence;
+using AnyJob.WebApp.Filters;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +10,13 @@ using Microsoft.EntityFrameworkCore;
 // Add services to the container.
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services
+   .AddControllers(opts =>
+    {
+        opts.Filters.Add<ValidationFilter>();
+        opts.Filters.Add<GlobalExceptionFilter>();
+    })
+   .ConfigureApiBehaviorOptions(opts => opts.SuppressModelStateInvalidFilter = true);
 
 builder.Logging.AddConsole();
 

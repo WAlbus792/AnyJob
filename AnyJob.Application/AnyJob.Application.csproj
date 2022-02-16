@@ -12,6 +12,7 @@
 	
 	<ItemGroup>
 	  <Folder Include="Commands\Users" />
+	  <Folder Include="Utilities" />
 	</ItemGroup>
 	
 	<ItemGroup>

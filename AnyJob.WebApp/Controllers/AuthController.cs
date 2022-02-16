@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AnyJob.WebApp.Controllers;
 
-[Route("api/[controller]/[action]")]
+[Route("api/[controller]")]
 [ApiController]
 public class AuthController : ControllerBase
 {
@@ -22,8 +22,8 @@ public class AuthController : ControllerBase
 
     #region Public methods
 
-    [HttpGet]
-    public Task<AnonymousUserViewModel?> GetAnonymous() => getAnonymousUserQuery.Build();
+    [HttpGet("[action]")]
+    public Task<AnonymousUserViewModel?> Anonymous() => getAnonymousUserQuery.Build();
 
     #endregion
 }

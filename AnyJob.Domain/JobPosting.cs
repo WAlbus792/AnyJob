@@ -5,6 +5,7 @@ namespace AnyJob.Domain;
 public class JobPosting : EntityWithId
 {
     public string Title { get; set; }
+    public DateTime CreationDate { get; set; }
 
     #region Navigation properties
 
